@@ -80,8 +80,8 @@
 
         .app-container {
             max-width: 1600px; 
-            margin: 0 auto;
-            width: 100%; 
+            margin: 10px auto;
+            width: calc(100% - 20px); 
             background: var(--app-bg);
             backdrop-filter: blur(10px);
             position: relative;
@@ -90,7 +90,6 @@
             flex-direction: column;
             border-radius: 20px;
             box-shadow: 0 8px 32px var(--shadow-light);
-            margin: 10px;
         }
 
         /* Header */
@@ -143,7 +142,7 @@
         }
 
         .logo-img {
-            height: 100px;
+            height: 60px;
             width: auto;
             filter: invert(1) brightness(1.1);
             transition: transform 0.3s ease;
@@ -213,6 +212,7 @@
         .main-content {
             padding: 2.5rem;
             flex-grow: 1;
+            overflow-y: auto;
         }
 
         .screen {
@@ -235,7 +235,7 @@
             }
         }
 
-        /* Welcome Screen */
+        /* --- Welcome Screen --- */
         .welcome-card {
             text-align: center;
             max-width: 650px;
@@ -249,7 +249,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .welcome-card::before {
             content: '';
             position: absolute;
@@ -260,12 +259,10 @@
             background: radial-gradient(circle, var(--accent-bg) 0%, transparent 70%);
             animation: float 6s ease-in-out infinite;
         }
-
         @keyframes float {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             50% { transform: translate(-20px, -20px) rotate(180deg); }
         }
-
         .welcome-icon {
             font-size: 5rem;
             margin-bottom: 1.5rem;
@@ -274,12 +271,10 @@
             position: relative;
             z-index: 1;
         }
-
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
         }
-
         .welcome-title {
             font-size: 3rem;
             background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
@@ -291,7 +286,6 @@
             position: relative;
             z-index: 1;
         }
-
         .welcome-subtitle {
             font-size: 1.3rem;
             color: var(--text-secondary);
@@ -300,7 +294,6 @@
             position: relative;
             z-index: 1;
         }
-
         .privacy-notice {
             background: var(--option-bg);
             border: 2px solid var(--border-color);
@@ -312,7 +305,6 @@
             position: relative;
             z-index: 1;
         }
-
         .privacy-notice h4 {
             color: var(--text-primary); 
             margin-bottom: 0.8rem;
@@ -320,7 +312,6 @@
             align-items: center;
             gap: 0.5rem;
         }
-
         .cta-button {
             background: var(--header-gradient);
             color: var(--text-light);
@@ -337,7 +328,6 @@
             z-index: 1;
             overflow: hidden;
         }
-
         .cta-button::before {
             content: '';
             position: absolute;
@@ -348,452 +338,181 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transition: left 0.6s ease;
         }
-
         .cta-button:hover::before {
             left: 100%;
         }
-
         .cta-button:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 15px 35px rgba(232, 157, 157, 0.6);
         }
 
-        /* Assessment Screen */
-        .assessment-container {
-            max-width: 750px;
-            margin: 0 auto;
-        }
+        /* --- Assessment Screen --- */
+        .assessment-container { max-width: 750px; margin: 0 auto; }
+        .progress-bar { width: 100%; height: 12px; background: var(--progress-bg); border-radius: 6px; margin-bottom: 3rem; overflow: hidden; backdrop-filter: blur(10px); }
+        .progress-fill { height: 100%; background: var(--header-gradient); transition: width 0.5s ease; border-radius: 6px; }
+        .question-card { background: var(--card-bg); backdrop-filter: blur(20px); border-radius: 25px; padding: 3rem; margin-bottom: 2rem; box-shadow: 0 15px 40px var(--shadow-medium); border-left: 6px solid var(--primary-color); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .question-number { color: var(--primary-color); font-size: 1rem; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .question-text { font-size: 1.4rem; color: var(--text-primary); margin-bottom: 2.5rem; line-height: 1.6; font-weight: 500; }
+        .options-container { display: flex; flex-direction: column; gap: 1rem; }
+        .option { background: var(--option-bg); border: 2px solid var(--border-color); border-radius: 15px; padding: 1.2rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; backdrop-filter: blur(10px); position: relative; overflow: hidden; color: var(--text-primary); }
+        .option::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, var(--accent-bg), transparent); transition: left 0.4s ease; }
+        .option:hover::before { left: 100%; }
+        .option:hover { background: var(--card-bg); border-color: var(--primary-color); transform: translateX(5px); }
+        .option.selected { background: var(--accent-bg); border-color: var(--primary-color); color: var(--text-primary); transform: scale(1.02); }
+        .option-radio { margin-right: 1rem; width: 18px; height: 18px; pointer-events: none; }
+        .assessment-nav { display: flex; justify-content: space-between; margin-top: 3rem; }
+        .nav-button { background: var(--author-bg); color: var(--text-primary); border: 2px solid transparent; padding: 1rem 2rem; border-radius: 25px; cursor: pointer; font-weight: 700; transition: all 0.3s ease; font-family: 'Quicksand', sans-serif; backdrop-filter: blur(10px); }
+        .nav-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .nav-button:hover:not(:disabled) { background: var(--input-bg); transform: translateY(-2px); }
+        .nav-button.primary { background: var(--header-gradient); color: var(--text-light); }
+        .nav-button.primary:hover:not(:disabled) { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(232, 157, 157, 0.4); }
 
-        .progress-bar {
-            width: 100%;
-            height: 12px;
-            background: var(--progress-bg);
-            border-radius: 6px;
-            margin-bottom: 3rem;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
+        /* --- Dashboard --- */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; margin-bottom: 2rem; }
+        .dashboard-card { background: var(--card-bg); backdrop-filter: blur(20px); border-radius: 20px; padding: 2rem; box-shadow: 0 15px 35px var(--shadow-light); border-top: 5px solid var(--primary-color); border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .dashboard-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px var(--shadow-strong); }
+        .card-header { display: flex; align-items: center; margin-bottom: 1.5rem; }
+        .card-icon { font-size: 1.8rem; margin-right: 1rem; color: var(--primary-color); background: var(--accent-bg); padding: 0.5rem; border-radius: 10px; }
+        .card-title { font-size: 1.3rem; font-weight: 700; color: var(--text-primary); }
+        .mood-tracker { display: flex; justify-content: space-between; margin: 1.5rem 0; gap: 0.5rem; }
+        .mood-option { text-align: center; cursor: pointer; padding: 1rem 0.5rem; border-radius: 15px; transition: all 0.3s ease; flex: 1; background: var(--option-bg); color: var(--text-primary); }
+        .mood-option:hover { background: var(--accent-bg); transform: translateY(-2px); }
+        .mood-option.selected { background: var(--accent-bg); transform: scale(1.05); border: 2px solid var(--primary-color); }
+        .mood-emoji { font-size: 2.2rem; display: block; margin-bottom: 0.5rem; }
+        .quick-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .action-btn { background: var(--option-bg); color: var(--primary-color); border: 2px solid var(--border-color); padding: 1.2rem 1rem; border-radius: 15px; cursor: pointer; font-weight: 700; transition: all 0.3s ease; font-family: 'Quicksand', sans-serif; text-align: center; backdrop-filter: blur(10px); }
+        .action-btn:hover { background: var(--accent-bg); color: var(--text-primary); transform: translateY(-3px); box-shadow: 0 8px 20px var(--shadow-light); }
 
-        .progress-fill {
-            height: 100%;
-            background: var(--header-gradient);
-            transition: width 0.5s ease;
-            border-radius: 6px;
-        }
+        /* --- Content Library --- */
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+        .content-card { background: var(--card-bg); backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px var(--shadow-light); transition: all 0.4s ease; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .content-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 50px var(--shadow-strong); }
+        .content-thumbnail { height: 180px; background: var(--header-gradient); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: var(--text-light); position: relative; overflow: hidden; }
+        .content-thumbnail::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s ease; }
+        .content-card:hover .content-thumbnail::before { left: 100%; }
+        .content-info { padding: 2rem; }
+        .content-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--text-primary); }
+        .content-description { color: var(--text-secondary); font-size: 1rem; line-height: 1.5; margin-bottom: 1.5rem; }
+        .content-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: var(--text-secondary); padding-top: 1rem; border-top: 1px solid var(--forum-border); }
 
-        .question-card {
+        /* --- Community Forum & Generic Header --- */
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+        .new-post-btn { background: var(--header-gradient); color: var(--text-light); border: none; padding: 1rem 2rem; border-radius: 25px; cursor: pointer; font-weight: 700; transition: all 0.3s ease; font-family: 'Quicksand', sans-serif; }
+        .new-post-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(232, 157, 157, 0.4); }
+        .forum-post { background: var(--card-bg); backdrop-filter: blur(20px); border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 25px var(--shadow-light); border-left: 5px solid var(--primary-color); border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease; }
+        .forum-post:hover { transform: translateX(5px); }
+        .post-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+        .post-author { display: flex; align-items: center; gap: 0.8rem; font-weight: 600; color: var(--text-primary); }
+        .author-avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--header-gradient); display: flex; align-items: center; justify-content: center; color: var(--text-light); font-weight: 700; font-size: 1.1rem; }
+        .post-content { line-height: 1.7; margin-bottom: 1.5rem; font-weight: 500; font-size: 1.05rem; color: var(--text-primary); }
+        .post-actions { display: flex; gap: 2rem; color: var(--text-secondary); font-size: 1rem; font-weight: 600; }
+        .post-action { cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease; padding: 0.5rem 1rem; border-radius: 10px; }
+        .post-action:hover { color: var(--primary-color); background: var(--accent-bg); }
+        
+        /* --- Journal Screen --- */
+        .journal-entry {
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 3rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 15px 40px var(--shadow-medium);
-            border-left: 6px solid var(--primary-color);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .question-number {
-            color: var(--primary-color); 
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .question-text {
-            font-size: 1.4rem;
-            color: var(--text-primary); 
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
-            font-weight: 500;
-        }
-
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .option {
-            background: var(--option-bg);
-            border: 2px solid var(--border-color);
+            border-left: 5px solid var(--primary-color);
             border-radius: 15px;
-            padding: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-            color: var(--text-primary);
-        }
-
-        .option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, var(--accent-bg), transparent);
-            transition: left 0.4s ease;
-        }
-
-        .option:hover::before {
-            left: 100%;
-        }
-
-        .option:hover {
-            background: var(--card-bg);
-            border-color: var(--primary-color);
-            transform: translateX(5px);
-        }
-
-        .option.selected {
-            background: var(--accent-bg);
-            border-color: var(--primary-color);
-            color: var(--text-primary);
-            transform: scale(1.02);
-        }
-
-        .option-radio {
-            margin-right: 1rem;
-            width: 18px;
-            height: 18px;
-            pointer-events: none;
-        }
-
-        .assessment-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 3rem;
-        }
-
-        .nav-button {
-            background: var(--author-bg);
-            color: var(--text-primary);
-            border: 2px solid transparent;
-            padding: 1rem 2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-family: 'Quicksand', sans-serif;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .nav-button:hover:not(:disabled) {
-            background: var(--input-bg);
-            transform: translateY(-2px);
-        }
-
-        .nav-button.primary {
-            background: var(--header-gradient);
-            color: var(--text-light);
-        }
-
-        .nav-button.primary:hover:not(:disabled) {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(232, 157, 157, 0.4);
-        }
-
-        /* Dashboard */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .dashboard-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 15px 35px var(--shadow-light);
-            border-top: 5px solid var(--primary-color);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px var(--shadow-strong);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
+            padding: 1.5rem 2rem;
             margin-bottom: 1.5rem;
-        }
-
-        .card-icon {
-            font-size: 1.8rem;
-            margin-right: 1rem;
-            color: var(--primary-color);
-            background: var(--accent-bg);
-            padding: 0.5rem;
-            border-radius: 10px;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text-primary); 
-        }
-
-        .mood-tracker {
-            display: flex;
-            justify-content: space-between;
-            margin: 1.5rem 0;
-            gap: 0.5rem;
-        }
-
-        .mood-option {
-            text-align: center;
-            cursor: pointer;
-            padding: 1rem 0.5rem;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            flex: 1;
-            background: var(--option-bg);
-            color: var(--text-primary);
-        }
-
-        .mood-option:hover {
-            background: var(--accent-bg);
-            transform: translateY(-2px);
-        }
-
-        .mood-option.selected {
-            background: var(--accent-bg);
-            transform: scale(1.05);
-            border: 2px solid var(--primary-color);
-        }
-
-        .mood-emoji {
-            font-size: 2.2rem;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .action-btn {
-            background: var(--option-bg);
-            color: var(--primary-color);
-            border: 2px solid var(--border-color);
-            padding: 1.2rem 1rem;
-            border-radius: 15px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-family: 'Quicksand', sans-serif;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .action-btn:hover {
-            background: var(--accent-bg);
-            color: var(--text-primary);
-            transform: translateY(-3px);
             box-shadow: 0 8px 20px var(--shadow-light);
         }
-
-        /* Content Library */
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .content-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px var(--shadow-light);
-            transition: all 0.4s ease;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .content-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px var(--shadow-strong);
-        }
-
-        .content-thumbnail {
-            height: 180px;
-            background: var(--header-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: var(--text-light);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .content-thumbnail::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .content-card:hover .content-thumbnail::before {
-            left: 100%;
-        }
-
-        .content-info {
-            padding: 2rem;
-        }
-
-        .content-title {
-            font-size: 1.2rem;
+        .journal-date {
             font-weight: 700;
+            color: var(--primary-color);
             margin-bottom: 0.8rem;
-            color: var(--text-primary); 
         }
-
-        .content-description {
-            color: var(--text-secondary); 
-            font-size: 1rem;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-        }
-
-        .content-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            padding-top: 1rem;
-            border-top: 1px solid var(--forum-border);
-        }
-
-        /* Community Forum */
-        .forum-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3rem;
-        }
-
-        .new-post-btn {
-            background: var(--header-gradient);
-            color: var(--text-light);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .new-post-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(232, 157, 157, 0.4);
-        }
-
-        .forum-post {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 25px var(--shadow-light);
-            border-left: 5px solid var(--primary-color);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .forum-post:hover {
-            transform: translateX(5px);
-        }
-
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.2rem;
-        }
-
-        .post-author {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-weight: 600;
+        .journal-text {
+            white-space: pre-wrap; /* preserves line breaks */
+            line-height: 1.6;
             color: var(--text-primary);
         }
-
-        .author-avatar {
-            width: 45px;
-            height: 45px;
+        #journalEntriesContainer p {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--text-secondary);
+        }
+        
+        /* --- Counselors Screen --- */
+        .counselors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .counselor-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+        .counselor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--shadow-strong);
+        }
+        .counselor-avatar {
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             background: var(--header-gradient);
+            margin: 0 auto 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 3rem;
             color: var(--text-light);
+            box-shadow: 0 5px 15px var(--shadow-medium);
+        }
+        .counselor-name {
+            font-size: 1.4rem;
             font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .post-content {
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-            font-size: 1.05rem;
             color: var(--text-primary);
+            margin-bottom: 0.5rem;
         }
-
-        .post-actions {
-            display: flex;
-            gap: 2rem;
-            color: var(--text-secondary); 
-            font-size: 1rem;
+        .counselor-specialty {
+            color: var(--primary-color);
             font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .counselor-bio {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
-        .post-action {
-            cursor: pointer;
+        /* --- Floating AI Chat Widget --- */
+        .chat-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--header-gradient);
+            color: var(--text-light);
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            z-index: 999;
             transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
         }
-
-        .post-action:hover {
-            color: var(--primary-color);
-            background: var(--accent-bg);
+        .chat-fab:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
         }
-
-        /* AI Chat */
-        .chat-container {
-            max-width: 850px;
-            margin: 0 auto;
-            height: 75vh;
+        .chat-widget {
+            position: fixed;
+            bottom: 6.5rem;
+            right: 2rem;
+            width: 380px;
+            height: 70vh;
+            max-height: 550px;
             display: flex;
             flex-direction: column;
             background: var(--card-bg);
@@ -802,346 +521,90 @@
             box-shadow: 0 20px 40px var(--shadow-medium);
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 998;
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
+            transform: scale(0.5);
+            opacity: 0;
+            pointer-events: none;
         }
-
+        .chat-widget.active {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
         .chat-header {
             background: var(--header-gradient);
             color: var(--text-light);
-            padding: 1.5rem;
+            padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
             gap: 1rem;
             font-weight: 600;
+            flex-shrink: 0;
         }
+        .chat-header i { font-size: 1.5rem; }
+        .chat-messages { flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.2rem; }
+        .message { max-width: 80%; padding: 1rem 1.2rem; border-radius: 20px; line-height: 1.5; animation: messageSlide 0.4s ease-out; font-size: 0.95rem; }
+        @keyframes messageSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .message.bot { background: var(--option-bg); color: var(--text-primary); align-self: flex-start; border-bottom-left-radius: 5px; border: 1px solid var(--border-color); }
+        .message.user { background: var(--header-gradient); color: var(--text-light); align-self: flex-end; border-bottom-right-radius: 5px; }
+        .chat-input-container { padding: 1rem; border-top: 2px solid var(--border-color); display: flex; gap: 0.5rem; background: var(--option-bg); }
+        .chat-input { flex: 1; border: 2px solid var(--border-color); background: var(--input-bg); border-radius: 25px; padding: 0.8rem 1.2rem; font-size: 1rem; outline: none; transition: all 0.3s ease; font-family: 'Quicksand', sans-serif; color: var(--text-primary); }
+        .chat-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--accent-bg); }
+        .send-btn { background: var(--header-gradient); color: var(--text-light); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; font-size: 1.2rem; flex-shrink: 0; }
+        .send-btn:hover { transform: scale(1.1); box-shadow: 0 5px 15px rgba(232, 157, 157, 0.4); }
 
-        .chat-header i {
-            font-size: 1.5rem;
-        }
+        /* --- Modal Styles --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.3s ease; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--modal-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 20px; box-shadow: 0 25px 50px var(--shadow-medium); max-width: 90%; width: 500px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .modal-title { font-size: 1.6rem; color: var(--text-primary); margin-bottom: 1.2rem; font-weight: 700; }
+        .modal-message { color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6; font-size: 1.05rem; }
+        .modal-actions { display: flex; justify-content: center; gap: 1rem; }
+        .modal-textarea { width: 100%; min-height: 120px; border: 2px solid var(--border-color); border-radius: 15px; padding: 1rem; font-size: 1rem; margin-bottom: 1.5rem; font-family: 'Quicksand', sans-serif; background: var(--input-bg); transition: border-color 0.3s ease; color: var(--text-primary); }
+        .modal-textarea:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--accent-bg); }
 
-        .chat-messages {
-            flex: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        .message {
-            max-width: 75%;
-            padding: 1.2rem;
-            border-radius: 20px;
-            line-height: 1.5;
-            animation: messageSlide 0.4s ease-out;
-            font-size: 1rem;
-        }
-
-        @keyframes messageSlide {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0);
-            }
-        }
-
-        .message.bot {
-            background: var(--option-bg);
-            color: var(--text-primary); 
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-            border: 1px solid var(--border-color);
-        }
-
-        .message.user {
-            background: var(--header-gradient);
-            color: var(--text-light);
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-
-        .chat-input-container {
-            padding: 1.5rem;
-            border-top: 2px solid var(--border-color);
-            display: flex;
-            gap: 1rem;
-            background: var(--option-bg);
-        }
-
-        .chat-input {
-            flex: 1;
-            border: 2px solid var(--border-color);
-            background: var(--input-bg);
-            border-radius: 25px;
-            padding: 1rem 1.5rem;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
-            font-family: 'Quicksand', sans-serif;
-            color: var(--text-primary);
-        }
-
-        .chat-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px var(--accent-bg);
-        }
-
-        .send-btn {
-            background: var(--header-gradient);
-            color: var(--text-light);
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .send-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(232, 157, 157, 0.4);
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: var(--modal-bg);
-            backdrop-filter: blur(20px);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px var(--shadow-medium);
-            max-width: 90%;
-            width: 500px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .modal-title {
-            font-size: 1.6rem;
-            color: var(--text-primary); 
-            margin-bottom: 1.2rem;
-            font-weight: 700;
-        }
-
-        .modal-message {
-            color: var(--text-secondary); 
-            margin-bottom: 2rem;
-            line-height: 1.6;
-            font-size: 1.05rem;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .modal-textarea {
-            width: 100%;
-            min-height: 120px;
-            border: 2px solid var(--border-color);
-            border-radius: 15px;
-            padding: 1rem;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            font-family: 'Quicksand', sans-serif;
-            background: var(--input-bg);
-            transition: border-color 0.3s ease;
-            color: var(--text-primary);
-        }
-
-        .modal-textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px var(--accent-bg);
-        }
-
-        /* Responsive Design */
+        /* --- Responsive Design --- */
         @media (max-width: 768px) {
-            .app-container {
-                margin: 5px;
-                border-radius: 15px;
-            }
-            
-            .header { 
-                flex-direction: column; 
-                gap: 1.5rem;
-                padding: 1.2rem;
-                border-radius: 15px 15px 0 0;
-            }
-            
-            .theme-toggle {
-                margin-left: 0;
-                align-self: flex-end;
-                order: -1;
-            }
-            
-            .main-content { 
-                padding: 1.5rem; 
-            }
-            
-            .nav-menu { 
-                flex-wrap: wrap; 
-                justify-content: center; 
-                gap: 0.3rem;
-                padding: 0.3rem;
-            }
-            
-            .nav-btn {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
-            }
-            
-            .dashboard-grid { 
-                grid-template-columns: 1fr; 
-                gap: 1.5rem;
-            }
-            
-            .quick-actions { 
-                grid-template-columns: 1fr; 
-            }
-            
-            .message { 
-                max-width: 85%; 
-                padding: 1rem;
-            }
-            
-            .welcome-card {
-                margin: 1.5rem auto;
-                padding: 2.5rem 2rem;
-            }
-            
-            .welcome-title {
-                font-size: 2.2rem;
-            }
-            
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .chat-container {
-                height: 70vh;
-            }
-            
-            .modal-content {
-                width: 95%;
-                padding: 2rem;
-            }
+            .app-container { margin: 5px; border-radius: 15px; width: calc(100% - 10px); }
+            .header { flex-direction: column; gap: 1.5rem; padding: 1.2rem; border-radius: 15px 15px 0 0; }
+            .theme-toggle { margin-left: 0; align-self: flex-end; order: -1; }
+            .main-content { padding: 1.5rem; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.3rem; padding: 0.3rem; }
+            .nav-btn { padding: 0.6rem 1rem; font-size: 0.9rem; }
+            .dashboard-grid, .counselors-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .quick-actions { grid-template-columns: 1fr; }
+            .welcome-card { margin: 1.5rem auto; padding: 2.5rem 2rem; }
+            .welcome-title { font-size: 2.2rem; }
+            .content-grid { grid-template-columns: 1fr; }
+            .modal-content { width: 95%; padding: 2rem; }
+            .chat-widget { width: calc(100% - 2rem); right: 1rem; bottom: 5.5rem;}
+            .chat-fab { right: 1rem; bottom: 1rem; }
         }
 
-        /* Utility Classes & Specific Overrides */
+        /* --- Utility & Overrides --- */
         .hidden { display: none !important; }
         .text-center { text-align: center; }
         .mb-2 { margin-bottom: 2rem; }
         .mt-2 { margin-top: 2rem; }
+        #wellnessScore { color: var(--primary-color) !important; text-shadow: 0 2px 4px rgba(232, 157, 157, 0.3); }
+        .forum-post .post-header span { background: var(--author-bg); color: var(--text-primary); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; backdrop-filter: blur(10px); }
+        .gradient-text { background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        #wellnessScore { 
-            color: var(--primary-color) !important; 
-            text-shadow: 0 2px 4px rgba(232, 157, 157, 0.3);
-        }
-        
-        .forum-post .post-header span {
-            background: var(--author-bg);
-            color: var(--text-primary);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-        }
+        /* --- Scrollbar Styling --- */
+        .chat-messages::-webkit-scrollbar, .main-content::-webkit-scrollbar { width: 6px; }
+        .chat-messages::-webkit-scrollbar-track, .main-content::-webkit-scrollbar-track { background: var(--progress-bg); border-radius: 3px; }
+        .chat-messages::-webkit-scrollbar-thumb, .main-content::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 3px; }
+        .chat-messages::-webkit-scrollbar-thumb:hover, .main-content::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
 
-        /* Scrollbar Styling */
-        .chat-messages::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .chat-messages::-webkit-scrollbar-track {
-            background: var(--progress-bg);
-            border-radius: 3px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 3px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Loading Animation */
-        .loading-dots {
-            display: inline-block;
-            position: relative;
-            width: 40px;
-            height: 10px;
-        }
-
-        .loading-dots div {
-            position: absolute;
-            top: 0;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            animation: loadingDots 1.2s linear infinite;
-        }
-
+        /* --- Loading Animation --- */
+        .loading-dots { display: inline-block; position: relative; width: 40px; height: 10px; }
+        .loading-dots div { position: absolute; top: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--primary-color); animation: loadingDots 1.2s linear infinite; }
         .loading-dots div:nth-child(1) { left: 4px; animation-delay: -0.24s; }
         .loading-dots div:nth-child(2) { left: 16px; animation-delay: -0.12s; }
         .loading-dots div:nth-child(3) { left: 28px; animation-delay: 0; }
-
-        @keyframes loadingDots {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-
-        /* Enhanced Focus States */
-        .nav-btn:focus,
-        .cta-button:focus,
-        .action-btn:focus,
-        .chat-input:focus {
-            outline: 3px solid var(--accent-bg);
-            outline-offset: 2px;
-        }
-
-        /* Smooth Transitions for All Interactive Elements */
-        * {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        /* Gradient Text Effects */
-        .gradient-text {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        @keyframes loadingDots { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -1158,9 +621,10 @@
             <nav class="nav-menu">
                 <button class="nav-btn active" onclick="showScreen('welcome', event)"><i class="bi bi-house-door-fill"></i> Home</button>
                 <button class="nav-btn" onclick="showScreen('dashboard', event)"><i class="bi bi-grid-1x2-fill"></i> Dashboard</button>
+                <button class="nav-btn" onclick="showScreen('journal', event)"><i class="bi bi-journal-richtext"></i> Journal</button>
                 <button class="nav-btn" onclick="showScreen('content', event)"><i class="bi bi-book-fill"></i> Resources</button>
+                <button class="nav-btn" onclick="showScreen('counselors', event)"><i class="bi bi-person-video3"></i> Counselors</button>
                 <button class="nav-btn" onclick="showScreen('community', event)"><i class="bi bi-people-fill"></i> Community</button>
-                <button class="nav-btn" onclick="showScreen('chat', event)"><i class="bi bi-chat-heart-fill"></i> AI Support</button>
             </nav>
         </header>
 
@@ -1172,7 +636,7 @@
                     <p class="welcome-subtitle">A safe, anonymous, and supportive platform for Indian students to prioritize their mental wellness.</p>
                     <div class="privacy-notice">
                         <h4><i class="bi bi-shield-lock-fill"></i> Your Privacy is Our Priority</h4>
-                        <p>Your data is completely anonymous and encrypted. We use open-source, self-hosted technology to guarantee your privacy. No one can identify you or track your usage.</p>
+                        <p>Your data is completely anonymous and encrypted. Your journal entries are stored only in your browser. No one else can see your data.</p>
                     </div>
                     <button class="cta-button" onclick="showScreen('assessment', event)">
                         Start Your Wellness Journey
@@ -1183,8 +647,7 @@
             <div id="assessment" class="screen">
                 <div class="assessment-container">
                     <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
-                    <div id="questionCard" class="question-card">
-                         </div>
+                    <div id="questionCard" class="question-card"></div>
                 </div>
             </div>
 
@@ -1212,103 +675,75 @@
                         <div class="card-header"><i class="bi bi-magic card-icon"></i><span class="card-title">Quick Actions</span></div>
                         <div class="quick-actions">
                             <button class="action-btn" onclick="showScreen('content', event)">Browse Resources</button>
-                            <button class="action-btn" onclick="showScreen('chat', event)">Talk to AI</button>
+                            <button class="action-btn" onclick="showScreen('journal', event)">Write in Journal</button>
                             <button class="action-btn" onclick="showScreen('community', event)">Join Discussion</button>
-                            <button class="action-btn" onclick="openJournal()">Write Journal</button>
+                            <button class="action-btn" onclick="showScreen('counselors', event)">Find a Counselor</button>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="journal" class="screen">
+                <div class="page-header">
+                    <h2 class="welcome-title gradient-text">Your Private Journal</h2>
+                    <button class="new-post-btn" onclick="addNewJournalEntry()"><i class="bi bi-plus-circle"></i> New Entry</button>
+                </div>
+                <div id="journalEntriesContainer">
+                    </div>
             </div>
             
             <div id="content" class="screen">
                 <h2 class="welcome-title text-center mb-2 gradient-text">Guided Resources & Exercises</h2>
-                <div class="content-grid">
-                    <div class="content-card" onclick="openContent('breathing')">
-                        <div class="content-thumbnail"><i class="bi bi-wind"></i></div>
-                        <div class="content-info">
-                            <h3 class="content-title">5-Minute Breathing Exercise</h3>
-                            <p class="content-description">Quick stress relief technique perfect for before exams or presentations.</p>
-                            <div class="content-meta"><span>⏱ 5 minutes</span><span>⭐ 4.8/5</span></div>
-                        </div>
+                <div class="content-grid" id="contentGrid">
                     </div>
-                    <div class="content-card" onclick="openContent('anxiety')">
-                        <div class="content-thumbnail"><i class="bi bi-puzzle"></i></div>
-                        <div class="content-info">
-                            <h3 class="content-title">Managing Exam Anxiety</h3>
-                            <p class="content-description">CBT-based techniques to overcome test anxiety and improve performance.</p>
-                            <div class="content-meta"><span>📖 10 minutes</span><span>⭐ 4.9/5</span></div>
-                        </div>
-                    </div>
-                    <div class="content-card" onclick="openContent('sleep')">
-                        <div class="content-thumbnail"><i class="bi bi-moon-stars"></i></div>
-                        <div class="content-info">
-                            <h3 class="content-title">Better Sleep for Students</h3>
-                            <p class="content-description">Evidence-based sleep hygiene tips for better rest and focus.</p>
-                            <div class="content-meta"><span>📚 15 minutes</span><span>⭐ 4.7/5</span></div>
-                        </div>
-                    </div>
-                    <div class="content-card" onclick="openContent('mindfulness')">
-                        <div class="content-thumbnail"><i class="bi bi-peace"></i></div>
-                        <div class="content-info">
-                            <h3 class="content-title">Mindfulness for Students</h3>
-                            <p class="content-description">Learn to stay present and reduce overwhelm with daily mindfulness.</p>
-                            <div class="content-meta"><span>🎧 12 minutes</span><span>⭐ 4.8/5</span></div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            
+            <div id="counselors" class="screen">
+                <h2 class="welcome-title text-center mb-2 gradient-text">Connect with a Professional</h2>
+                <div class="counselors-grid" id="counselorsGrid">
+                     </div>
             </div>
 
             <div id="community" class="screen">
-                <div class="forum-header">
+                <div class="page-header">
                     <h2 class="welcome-title gradient-text">Anonymous Support Community</h2>
                     <button class="new-post-btn" onclick="createNewPost()"><i class="bi bi-plus-circle"></i> New Post</button>
                 </div>
                 <div class="forum-post">
-                    <div class="post-header">
-                        <div class="post-author"><div class="author-avatar">A</div><div><div>Anonymous_47</div><div style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);">2 hours ago</div></div></div>
-                        <span>Exam Stress</span>
-                    </div>
+                    <div class="post-header"><div class="post-author"><div class="author-avatar">A</div><div><div>Anonymous_47</div><div style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);">2 hours ago</div></div></div><span>Exam Stress</span></div>
                     <div class="post-content">I have my final exams starting next week and I'm feeling overwhelmed. I've been studying but I keep thinking I'm not prepared enough. Anyone else going through something similar?</div>
-                    <div class="post-actions">
-                        <span class="post-action"><i class="bi bi-hand-thumbs-up"></i> 24</span>
-                        <span class="post-action"><i class="bi bi-chat-dots"></i> 15</span>
-                        <span class="post-action"><i class="bi bi-share"></i> Share</span>
-                    </div>
+                    <div class="post-actions"><span class="post-action"><i class="bi bi-hand-thumbs-up"></i> 24</span><span class="post-action"><i class="bi bi-chat-dots"></i> 15</span><span class="post-action"><i class="bi bi-share"></i> Share</span></div>
                 </div>
                 <div class="forum-post">
-                    <div class="post-header">
-                        <div class="post-author"><div class="author-avatar">S</div><div><div>Sunshine_23</div><div style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);">5 hours ago</div></div></div>
-                        <span>Success Story</span>
-                    </div>
+                    <div class="post-header"><div class="post-author"><div class="author-avatar">S</div><div><div>Sunshine_23</div><div style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);">5 hours ago</div></div></div><span>Success Story</span></div>
                     <div class="post-content">Just wanted to share that I finally talked to my parents about my struggles with anxiety. They were much more understanding than I expected! Sometimes the conversations we dread the most are the ones we need the most. 💙</div>
-                    <div class="post-actions">
-                        <span class="post-action"><i class="bi bi-hand-thumbs-up"></i> 51</span>
-                        <span class="post-action"><i class="bi bi-chat-dots"></i> 8</span>
-                        <span class="post-action"><i class="bi bi-share"></i> Share</span>
-                    </div>
+                    <div class="post-actions"><span class="post-action"><i class="bi bi-hand-thumbs-up"></i> 51</span><span class="post-action"><i class="bi bi-chat-dots"></i> 8</span><span class="post-action"><i class="bi bi-share"></i> Share</span></div>
                 </div>
             </div>
 
-            <div id="chat" class="screen">
-                <div class="chat-container">
-                    <div class="chat-header">
-                        <i class="bi bi-chat-heart"></i>
-                        <div>
-                            <div>MindBridge AI Assistant</div>
-                            <div style="font-size: 0.9rem; opacity: 0.9; font-weight: 500;">Always here to listen</div>
-                        </div>
-                    </div>
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message bot">Hi there! I'm your MindBridge AI companion. How are you feeling today?</div>
-                    </div>
-                    <div class="chat-input-container">
-                        <input type="text" class="chat-input" id="chatInput" placeholder="Type your message here..." onkeypress="handleChatKeyPress(event)">
-                        <button class="send-btn" onclick="sendMessage()"><i class="bi bi-arrow-right"></i></button>
-                    </div>
-                </div>
-            </div>
         </main>
     </div>
+
+    <div class="chat-fab" onclick="toggleChatWidget()" title="Talk to AI Assistant">
+        <i class="bi bi-chat-heart-fill"></i>
+    </div>
+    <div id="chatWidget" class="chat-widget">
+        <div class="chat-header">
+            <i class="bi bi-chat-heart"></i>
+            <div>
+                <div>MindBridge AI Assistant</div>
+                <div style="font-size: 0.9rem; opacity: 0.9; font-weight: 500;">Always here to listen</div>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">Hi there! I'm your MindBridge AI companion. How are you feeling today?</div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="handleChatKeyPress(event)">
+            <button class="send-btn" onclick="sendMessage()"><i class="bi bi-arrow-right"></i></button>
+        </div>
+    </div>
+
 
     <div id="customModal" class="modal-overlay hidden">
         <div class="modal-content">
@@ -1335,13 +770,9 @@
             const html = document.documentElement;
             const sunIcon = document.getElementById('sunIcon');
             const moonIcon = document.getElementById('moonIcon');
-            
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
             html.setAttribute('data-theme', newTheme);
-            
-            // Toggle icon visibility
             if (newTheme === 'dark') {
                 sunIcon.classList.add('hidden');
                 moonIcon.classList.remove('hidden');
@@ -1349,20 +780,15 @@
                 sunIcon.classList.remove('hidden');
                 moonIcon.classList.add('hidden');
             }
-            
-            // Save preference
             localStorage.setItem('theme', newTheme);
         }
 
-        // Initialize theme on page load
         function initializeTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             const html = document.documentElement;
             const sunIcon = document.getElementById('sunIcon');
             const moonIcon = document.getElementById('moonIcon');
-            
             html.setAttribute('data-theme', savedTheme);
-            
             if (savedTheme === 'dark') {
                 sunIcon.classList.add('hidden');
                 moonIcon.classList.remove('hidden');
@@ -1375,20 +801,25 @@
         // --- DATA & STATE ---
         let currentQuestion = 0;
         let assessmentAnswers = new Array(9).fill(undefined);
-        
-        const questions = [
-            { text: "Little interest or pleasure in doing things?" },
-            { text: "Feeling down, depressed, or hopeless?" },
-            { text: "Trouble falling/staying asleep, or sleeping too much?" },
-            { text: "Feeling tired or having little energy?" },
-            { text: "Poor appetite or overeating?" },
-            { text: "Feeling bad about yourself or that you are a failure?" },
-            { text: "Trouble concentrating on things, like reading or watching TV?" },
-            { text: "Moving/speaking slowly, or being fidgety/restless?" },
-            { text: "Thoughts that you would be better off dead, or hurting yourself?" }
-        ];
-        const optionsText = ["Not at all", "Several days", "More than half the days", "Nearly every day"];
+        let journalEntries = [];
 
+        const questions = [ { text: "Little interest or pleasure in doing things?" }, { text: "Feeling down, depressed, or hopeless?" }, { text: "Trouble falling/staying asleep, or sleeping too much?" }, { text: "Feeling tired or having little energy?" }, { text: "Poor appetite or overeating?" }, { text: "Feeling bad about yourself or that you are a failure?" }, { text: "Trouble concentrating on things, like reading or watching TV?" }, { text: "Moving/speaking slowly, or being fidgety/restless?" }, { text: "Thoughts that you would be better off dead, or hurting yourself?" } ];
+        const optionsText = ["Not at all", "Several days", "More than half the days", "Nearly every day"];
+        
+        const counselorsData = [
+            { name: "Dr. Anjali Sharma", specialty: "Anxiety & Stress Management", avatar: "AS", bio: "With over 10 years of experience, Dr. Sharma specializes in Cognitive Behavioral Therapy (CBT) for students facing academic pressure." },
+            { name: "Mr. Rohan Verma", specialty: "Depression & Mood Disorders", avatar: "RV", bio: "Rohan uses a person-centered approach to help students navigate feelings of sadness and find motivation." },
+            { name: "Ms. Priya Desai", specialty: "Relationship & Family Issues", avatar: "PD", bio: "Priya provides a safe space to discuss interpersonal challenges, helping students build healthier relationships." },
+            { name: "Dr. Sameer Khan", specialty: "Career & Future Planning", avatar: "SK", bio: "Dr. Khan helps students manage the stress of career choices and develop a clear path forward." }
+        ];
+
+        const contentData = [
+            { id: 'breathing', icon: 'bi-wind', title: '5-Minute Breathing Exercise', desc: 'Quick stress relief technique perfect for before exams or presentations.', meta1: '⏱ 5 minutes', meta2: '⭐ 4.8/5' },
+            { id: 'anxiety', icon: 'bi-puzzle', title: 'Managing Exam Anxiety', desc: 'CBT-based techniques to overcome test anxiety and improve performance.', meta1: '📖 10 minutes', meta2: '⭐ 4.9/5' },
+            { id: 'sleep', icon: 'bi-moon-stars', title: 'Better Sleep for Students', desc: 'Evidence-based sleep hygiene tips for better rest and focus.', meta1: '📚 15 minutes', meta2: '⭐ 4.7/5' },
+            { id: 'mindfulness', icon: 'bi-peace', title: 'Mindfulness for Students', desc: 'Learn to stay present and reduce overwhelm with daily mindfulness.', meta1: '🎧 12 minutes', meta2: '⭐ 4.8/5' }
+        ];
+        
         // --- NAVIGATION ---
         function showScreen(screenName, event) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1401,7 +832,9 @@
                 const targetBtn = document.querySelector(`.nav-btn[onclick*="'${screenName}'"]`);
                 if(targetBtn) targetBtn.classList.add('active');
             }
-             if (screenName === 'assessment') updateQuestion();
+
+            if (screenName === 'assessment') updateQuestion();
+            if (screenName === 'journal') renderJournalEntries();
         }
 
         // --- MODAL SYSTEM ---
@@ -1468,8 +901,7 @@
                         </label>`;
             }).join('');
 
-            card.innerHTML = `
-                <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+            card.innerHTML = `<div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
                 <div class="question-text">Over the last 2 weeks, how often have you been bothered by...<br><strong>${questions[currentQuestion].text}</strong></div>
                 <div class="options-container">${optionsHTML}</div>
                 <div class="assessment-nav">
@@ -1483,7 +915,6 @@
         function completeAssessment() {
             const totalScore = assessmentAnswers.reduce((sum, answer) => sum + (answer || 0), 0);
             let resultMessage = '';
-            
             if (totalScore <= 4) resultMessage = 'Your responses suggest minimal depressive symptoms. Keep up the good self-care!';
             else if (totalScore <= 9) resultMessage = 'Your responses suggest mild depressive symptoms. Consider exploring our mindfulness resources.';
             else if (totalScore <= 14) resultMessage = 'Your responses suggest moderate depressive symptoms. Our community support and guided exercises may be helpful.';
@@ -1504,46 +935,102 @@
             showInfoModal(`Mood "${moodTexts[mood]}" logged successfully! Keep tracking to see your patterns over time.`);
         }
 
-        function openJournal() {
-            showPromptModal("Private Journal", "What's on your mind today? This is completely private and encrypted.", (entry) => {
-                if (entry && entry.trim()) {
-                    showInfoModal("Journal entry saved securely. Writing can be a powerful tool for processing emotions.");
+        // --- JOURNAL LOGIC ---
+        function loadJournalEntries() {
+            const storedEntries = localStorage.getItem('mindbridgeJournal');
+            journalEntries = storedEntries ? JSON.parse(storedEntries) : [];
+        }
+
+        function saveJournalEntries() {
+            localStorage.setItem('mindbridgeJournal', JSON.stringify(journalEntries));
+        }
+
+        function renderJournalEntries() {
+            const container = document.getElementById('journalEntriesContainer');
+            if (journalEntries.length === 0) {
+                container.innerHTML = '<p>No journal entries yet. Click "New Entry" to start writing.</p>';
+                return;
+            }
+            container.innerHTML = journalEntries.slice().reverse().map(entry => `
+                <div class="journal-entry">
+                    <div class="journal-date">${new Date(entry.date).toLocaleString()}</div>
+                    <div class="journal-text">${entry.text}</div>
+                </div>
+            `).join('');
+        }
+
+        function addNewJournalEntry() {
+            showPromptModal("New Journal Entry", "What's on your mind today? This is completely private and stored only in your browser.", (entryText) => {
+                if (entryText && entryText.trim()) {
+                    journalEntries.push({ text: entryText, date: new Date().toISOString() });
+                    saveJournalEntries();
+                    renderJournalEntries();
+                    showInfoModal("Journal entry saved securely.");
                 }
             });
         }
-
+        
         // --- CONTENT & COMMUNITY ---
+        function renderContentCards() {
+            const grid = document.getElementById('contentGrid');
+            grid.innerHTML = contentData.map(item => `
+                <div class="content-card" onclick="openContent('${item.id}')">
+                    <div class="content-thumbnail"><i class="bi ${item.icon}"></i></div>
+                    <div class="content-info">
+                        <h3 class="content-title">${item.title}</h3>
+                        <p class="content-description">${item.desc}</p>
+                        <div class="content-meta"><span>${item.meta1}</span><span>${item.meta2}</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         function openContent(type) {
              const contentMap = {
-                breathing: { title: "5-Minute Breathing Exercise", text: "1. Find a comfortable position and close your eyes.\n2. Inhale slowly through your nose for 4 counts.\n3. Hold your breath gently for 4 counts.\n4. Exhale slowly through your mouth for 6 counts.\n5. Repeat this cycle for 5 minutes.\n\nThis technique activates your parasympathetic nervous system, naturally reducing stress and anxiety." },
-                anxiety: { title: "Managing Exam Anxiety", text: "Key strategies:\n• Challenge negative thoughts with evidence\n• Use positive self-talk and affirmations\n• Take regular study breaks (25 min study, 5 min break)\n• Practice progressive muscle relaxation\n• Remember that some anxiety is normal and can improve performance\n• Focus on preparation, not perfection" },
-                sleep: { title: "Better Sleep for Students", text: "Evidence-based tips:\n• Maintain consistent sleep/wake times\n• Avoid screens 1 hour before bed\n• Keep bedroom cool (65-68°F)\n• Create a relaxing bedtime routine\n• Limit caffeine after 2 PM\n• Use your bed only for sleep\n• Try the 4-7-8 breathing technique if your mind races" },
-                mindfulness: { title: "Mindfulness for Students", text: "Getting started:\n• Begin with just 5 minutes daily\n• Focus on your breath without changing it\n• Notice thoughts without judging them\n• Gently return attention to breath when mind wanders\n• Practice during daily activities like eating or walking\n\nRegular practice improves focus, reduces stress, and enhances emotional regulation." }
+                breathing: { title: "5-Minute Breathing Exercise", text: "1. Find a comfortable position and close your eyes.\n2. Inhale slowly through your nose for 4 counts.\n3. Hold your breath gently for 4 counts.\n4. Exhale slowly through your mouth for 6 counts.\n5. Repeat this cycle for 5 minutes." },
+                anxiety: { title: "Managing Exam Anxiety", text: "Key strategies:\n• Challenge negative thoughts with evidence\n• Use positive self-talk and affirmations\n• Take regular study breaks\n• Practice progressive muscle relaxation" },
+                sleep: { title: "Better Sleep for Students", text: "Evidence-based tips:\n• Maintain consistent sleep/wake times\n• Avoid screens 1 hour before bed\n• Keep bedroom cool\n• Limit caffeine after 2 PM" },
+                mindfulness: { title: "Mindfulness for Students", text: "Getting started:\n• Begin with just 5 minutes daily\n• Focus on your breath without judging it\n• Notice thoughts without judging them\n• Gently return attention to your breath" }
             };
             const content = contentMap[type] || { title: "Not Found", text: "Content not available." };
             showInfoModal(content.text, content.title);
         }
 
         function createNewPost() {
-            showPromptModal("New Anonymous Post", "Share your thoughts, experiences, or questions with the community. Be respectful and supportive - your words can make a real difference in someone's day.", (post) => {
+            showPromptModal("New Anonymous Post", "Share your thoughts, experiences, or questions with the community. Be respectful and supportive.", (post) => {
                 if (post && post.trim()) {
-                    showInfoModal("Your post has been submitted for moderation. Thank you for contributing to our supportive community!");
+                    showInfoModal("Your post has been submitted. Thank you for contributing to our supportive community!");
                 }
             });
         }
+        
+        // --- COUNSELORS LOGIC ---
+        function renderCounselors() {
+            const grid = document.getElementById('counselorsGrid');
+            grid.innerHTML = counselorsData.map(c => `
+                <div class="counselor-card">
+                    <div class="counselor-avatar">${c.avatar}</div>
+                    <div class="counselor-name">${c.name}</div>
+                    <div class="counselor-specialty">${c.specialty}</div>
+                    <p class="counselor-bio">${c.bio}</p>
+                    <button class="action-btn" onclick="showInfoModal('This feature is coming soon. In a real application, this would open a booking or contact form.')">Connect</button>
+                </div>
+            `).join('');
+        }
 
-        // --- AI CHAT ---
+        // --- AI CHAT WIDGET ---
+        function toggleChatWidget() {
+            const widget = document.getElementById('chatWidget');
+            widget.classList.toggle('active');
+        }
+
         function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             if (!message) return;
-            
             addMessage(message, 'user');
             input.value = '';
-            
-            // Show typing indicator
             showTypingIndicator();
-            
             setTimeout(() => {
                 removeTypingIndicator();
                 addMessage(generateAIResponse(message), 'bot');
@@ -1569,19 +1056,18 @@
         }
 
         function removeTypingIndicator() {
-            const indicator = document.querySelector('.typing-indicator');
-            if (indicator) indicator.remove();
+            document.querySelector('.typing-indicator')?.remove();
         }
 
         function generateAIResponse(userMessage) {
             const msg = userMessage.toLowerCase();
-            if (msg.includes('stress') || msg.includes('anxious')) return "I understand you're feeling stressed. That's very common, especially for students. Would you like me to guide you through a quick breathing exercise, or would you prefer to explore some stress management techniques from our resources section?";
-            if (msg.includes('exam') || msg.includes('study')) return "Exam periods can be really challenging. Remember that some anxiety is normal and can even help performance. The key is managing it well. Would you like some specific study strategies or techniques for managing exam anxiety?";
-            if (msg.includes('lonely') || msg.includes('friend')) return "Feeling lonely is a very common experience, and I appreciate you sharing that with me. Our community forum is a safe space where many students connect over similar experiences. Have you considered reaching out there, or would you like to talk about ways to build connections?";
-            if (msg.includes('sad') || msg.includes('depressed')) return "I hear that you're going through a difficult time, and I want you to know that these feelings are completely valid. It takes courage to reach out. If these feelings persist or feel overwhelming, please consider speaking with a counselor or trusted adult. I'm here to listen and support you in the meantime.";
-            if (msg.includes('sleep') || msg.includes('tired')) return "Sleep issues are really common among students. Good sleep is crucial for both mental health and academic performance. Would you like some evidence-based sleep hygiene tips, or is there something specific about your sleep that's concerning you?";
-            if (msg.includes('thank')) return "You're very welcome! I'm glad I could be helpful. Remember, taking care of your mental health is just as important as your physical health. Is there anything else you'd like to explore or discuss?";
-            return "Thank you for sharing that with me. I'm here to listen and support you through whatever you're experiencing. Is there anything specific you'd like to talk about, or would you like me to suggest some resources that might be helpful?";
+            if (msg.includes('stress') || msg.includes('anxious')) return "I understand you're feeling stressed. That's very common for students. Would you like me to guide you through a quick breathing exercise, or would you prefer to explore stress management techniques from our resources section?";
+            if (msg.includes('exam') || msg.includes('study')) return "Exam periods can be really challenging. Remember that some anxiety is normal. The key is managing it well. Would you like some specific study strategies or techniques for managing exam anxiety?";
+            if (msg.includes('lonely') || msg.includes('friend')) return "Feeling lonely is a very common experience. Our community forum is a safe space where many students connect over similar experiences. Would you like to talk about ways to build connections?";
+            if (msg.includes('sad') || msg.includes('depressed')) return "I hear that you're going through a difficult time. It takes courage to reach out. If these feelings persist or feel overwhelming, please consider speaking with a counselor. I'm here to listen in the meantime.";
+            if (msg.includes('sleep') || msg.includes('tired')) return "Sleep issues are common among students. Good sleep is crucial for mental health. Would you like some evidence-based sleep hygiene tips from the resources section?";
+            if (msg.includes('thank')) return "You're very welcome! I'm glad I could be helpful. Remember, taking care of your mental health is important. Is there anything else I can help with?";
+            return "Thank you for sharing that with me. I'm here to listen and support you. Is there anything specific you'd like to talk about, or would you like me to suggest some resources?";
         }
 
         function handleChatKeyPress(event) {
@@ -1591,9 +1077,12 @@
         // --- INITIALIZE ---
         document.addEventListener('DOMContentLoaded', () => {
             initializeTheme();
-            updateQuestion();
+            updateQuestion(); // Pre-build the first question
+            loadJournalEntries();
+            renderContentCards();
+            renderCounselors();
+            renderJournalEntries(); // Initial render for the journal page
         });
     </script>
 </body>
 </html>
-
