@@ -695,13 +695,17 @@
             <div id="content" class="screen">
                 <h2 class="welcome-title text-center mb-2 gradient-text">Guided Resources & Exercises</h2>
                 <div class="content-grid" id="contentGrid">
-                    </div>
+                </div>
+                
+                <h3 style="color: var(--text-primary); font-size: 1.8rem; font-weight: 700; margin: 3rem 0 2rem 0; text-align: center;">Helpful Videos</h3>
+                <div class="content-grid" id="additionalContentGrid">
+                </div>
             </div>
             
             <div id="counselors" class="screen">
                 <h2 class="welcome-title text-center mb-2 gradient-text">Connect with a Professional</h2>
                 <div class="counselors-grid" id="counselorsGrid">
-                     </div>
+                       </div>
             </div>
 
             <div id="community" class="screen">
@@ -813,11 +817,18 @@
             { name: "Dr. Sameer Khan", specialty: "Career & Future Planning", avatar: "SK", bio: "Dr. Khan helps students manage the stress of career choices and develop a clear path forward." }
         ];
 
-        const contentData = [
-            { id: 'breathing', icon: 'bi-wind', title: '5-Minute Breathing Exercise', desc: 'Quick stress relief technique perfect for before exams or presentations.', meta1: '⏱ 5 minutes', meta2: '⭐ 4.8/5' },
-            { id: 'anxiety', icon: 'bi-puzzle', title: 'Managing Exam Anxiety', desc: 'CBT-based techniques to overcome test anxiety and improve performance.', meta1: '📖 10 minutes', meta2: '⭐ 4.9/5' },
-            { id: 'sleep', icon: 'bi-moon-stars', title: 'Better Sleep for Students', desc: 'Evidence-based sleep hygiene tips for better rest and focus.', meta1: '📚 15 minutes', meta2: '⭐ 4.7/5' },
-            { id: 'mindfulness', icon: 'bi-peace', title: 'Mindfulness for Students', desc: 'Learn to stay present and reduce overwhelm with daily mindfulness.', meta1: '🎧 12 minutes', meta2: '⭐ 4.8/5' }
+        const originalContentData = [
+            { id: 'breathing', icon: 'bi-wind', title: '5-Minute Breathing Exercise', desc: 'Follow step-by-step instructions for this powerful stress-relief technique.', meta1: '📖 Text Guide', meta2: '⭐ 4.8/5', type: 'text' },
+            { id: 'anxiety', icon: 'bi-puzzle', title: 'Managing Exam Anxiety', desc: 'Learn CBT-based techniques to overcome test anxiety with practical steps.', meta1: '📖 Text Guide', meta2: '⭐ 4.9/5', type: 'text' },
+            { id: 'sleep', icon: 'bi-moon-stars', title: 'Sleep Hygiene Guide', desc: 'Evidence-based techniques to improve your sleep quality and duration.', meta1: '📖 Text Guide', meta2: '⭐ 4.7/5', type: 'text' },
+            { id: 'mindfulness', icon: 'bi-peace', title: 'Mindfulness Practice', desc: 'Learn to stay present and reduce overwhelm with daily mindfulness exercises.', meta1: '📖 Text Guide', meta2: '⭐ 4.8/5', type: 'text' }
+        ];
+
+        const additionalContentData = [
+            { id: 'breathing-hindi', icon: 'bi-translate', title: 'Breathing Exercise (Hindi)', desc: 'A comprehensive breathing exercise guide in Hindi to help with stress relief.', meta1: '▶️ 12 min video', meta2: '⭐ 4.9/5', videoId: 'yAdfYadII8k' },
+            { id: 'exam-motivation', icon: 'bi-mortarboard-fill', title: 'Exam Stress Motivation', desc: 'Motivational guidance to overcome exam stress and build confidence.', meta1: '▶️ 10 min video', meta2: '⭐ 4.7/5', videoId: 'uyCDiaY9df4' },
+            { id: 'depression-motivation', icon: 'bi-sunrise-fill', title: 'Overcoming Depression', desc: 'Motivational content to help understand and overcome depressive feelings.', meta1: '▶️ 8 min video', meta2: '⭐ 4.8/5', videoId: '-GXfLY4-d8w' },
+            { id: 'sleep-music', icon: 'bi-music-note-beamed', title: 'Deep Sleep Music', desc: 'Relaxing sleep music to help you fall asleep faster and sleep deeper.', meta1: '▶️ 60 min audio', meta2: '⭐ 4.6/5', videoId: 'xQ6xgDI7Whc' }
         ];
         
         // --- NAVIGATION ---
@@ -838,12 +849,22 @@
         }
 
         // --- MODAL SYSTEM ---
-        function showInfoModal(message, title = "Notification") {
+        function showInfoModal(content, title = "Notification", isHtml = false) {
             document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalMessage').innerText = message;
+            const modalMessage = document.getElementById('modalMessage');
+            
+            if (isHtml) {
+                modalMessage.innerHTML = content;
+            } else {
+                modalMessage.innerText = content;
+            }
+
             const modal = document.getElementById('customModal');
             modal.classList.remove('hidden');
-            document.getElementById('modalOkButton').onclick = () => modal.classList.add('hidden');
+            document.getElementById('modalOkButton').onclick = () => {
+                modal.classList.add('hidden');
+                modalMessage.innerHTML = ''; // Clear content on close to stop video
+            };
         }
 
         function showPromptModal(title, message, callback) {
@@ -973,7 +994,19 @@
         // --- CONTENT & COMMUNITY ---
         function renderContentCards() {
             const grid = document.getElementById('contentGrid');
-            grid.innerHTML = contentData.map(item => `
+            grid.innerHTML = originalContentData.map(item => `
+                <div class="content-card" onclick="openContent('${item.id}')">
+                    <div class="content-thumbnail"><i class="bi ${item.icon}"></i></div>
+                    <div class="content-info">
+                        <h3 class="content-title">${item.title}</h3>
+                        <p class="content-description">${item.desc}</p>
+                        <div class="content-meta"><span>${item.meta1}</span><span>${item.meta2}</span></div>
+                    </div>
+                </div>
+            `).join('');
+            
+            const additionalGrid = document.getElementById('additionalContentGrid');
+            additionalGrid.innerHTML = additionalContentData.map(item => `
                 <div class="content-card" onclick="openContent('${item.id}')">
                     <div class="content-thumbnail"><i class="bi ${item.icon}"></i></div>
                     <div class="content-info">
@@ -985,15 +1018,121 @@
             `).join('');
         }
 
-        function openContent(type) {
-             const contentMap = {
-                breathing: { title: "5-Minute Breathing Exercise", text: "1. Find a comfortable position and close your eyes.\n2. Inhale slowly through your nose for 4 counts.\n3. Hold your breath gently for 4 counts.\n4. Exhale slowly through your mouth for 6 counts.\n5. Repeat this cycle for 5 minutes." },
-                anxiety: { title: "Managing Exam Anxiety", text: "Key strategies:\n• Challenge negative thoughts with evidence\n• Use positive self-talk and affirmations\n• Take regular study breaks\n• Practice progressive muscle relaxation" },
-                sleep: { title: "Better Sleep for Students", text: "Evidence-based tips:\n• Maintain consistent sleep/wake times\n• Avoid screens 1 hour before bed\n• Keep bedroom cool\n• Limit caffeine after 2 PM" },
-                mindfulness: { title: "Mindfulness for Students", text: "Getting started:\n• Begin with just 5 minutes daily\n• Focus on your breath without judging it\n• Notice thoughts without judging them\n• Gently return attention to your breath" }
-            };
-            const content = contentMap[type] || { title: "Not Found", text: "Content not available." };
-            showInfoModal(content.text, content.title);
+        function openContent(itemId) {
+            const item = originalContentData.find(c => c.id === itemId) || additionalContentData.find(c => c.id === itemId);
+            if (!item) return;
+
+            if (item.type === 'text') {
+                let textContent = '';
+                
+                switch(itemId) {
+                    case 'breathing':
+                        textContent = `
+                            <div style="text-align: left; line-height: 1.6; color: var(--text-primary);">
+                                <h4 style="color: var(--primary-color); margin-bottom: 1rem;">4-7-8 Breathing Technique</h4>
+                                <ol style="margin-bottom: 1.5rem;">
+                                    <li><strong>Sit comfortably</strong> with your back straight or lie down</li>
+                                    <li><strong>Exhale completely</strong> through your mouth, making a whoosh sound</li>
+                                    <li><strong>Close your mouth</strong> and inhale quietly through your nose for 4 counts</li>
+                                    <li><strong>Hold your breath</strong> for 7 counts</li>
+                                    <li><strong>Exhale through your mouth</strong> for 8 counts, making a whoosh sound</li>
+                                    <li><strong>Repeat the cycle</strong> 3-4 times</li>
+                                </ol>
+                                <p><strong>Benefits:</strong> Reduces anxiety, helps with sleep, lowers stress hormones</p>
+                                <p><strong>Best time:</strong> Before bed, during stressful moments, or twice daily for maintenance</p>
+                            </div>
+                        `;
+                        break;
+                    case 'anxiety':
+                        textContent = `
+                            <div style="text-align: left; line-height: 1.6; color: var(--text-primary);">
+                                <h4 style="color: var(--primary-color); margin-bottom: 1rem;">CBT Techniques for Exam Anxiety</h4>
+                                <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">1. Challenge Negative Thoughts</h5>
+                                <ul style="margin-bottom: 1rem;">
+                                    <li>Identify catastrophic thinking ("I'll fail everything")</li>
+                                    <li>Ask: "Is this thought realistic? What evidence supports it?"</li>
+                                    <li>Replace with balanced thoughts ("I'm prepared and will do my best")</li>
+                                </ul>
+                                <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">2. Grounding Technique (5-4-3-2-1)</h5>
+                                <ul style="margin-bottom: 1rem;">
+                                    <li>5 things you can see</li>
+                                    <li>4 things you can touch</li>
+                                    <li>3 things you can hear</li>
+                                    <li>2 things you can smell</li>
+                                    <li>1 thing you can taste</li>
+                                </ul>
+                                <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">3. Progressive Muscle Relaxation</h5>
+                                <p>Tense and release each muscle group for 5 seconds, starting from your toes to your head.</p>
+                            </div>
+                        `;
+                        break;
+                    case 'sleep':
+                        textContent = `
+                            <div style="text-align: left; line-height: 1.6; color: var(--text-primary);">
+                                <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Sleep Hygiene Guidelines</h4>
+                                <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">Before Bedtime (1-2 hours)</h5>
+                                <ul style="margin-bottom: 1rem;">
+                                    <li>Avoid screens or use blue light filters</li>
+                                    <li>Keep room temperature cool (18-22°C)</li>
+                                    <li>Dim the lights gradually</li>
+                                    <li>Avoid caffeine and heavy meals</li>
+                                </ul>
+                                <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">Sleep Routine</h5>
+                                <ul style="margin-bottom: 1rem;">
+                                    <li>Go to bed and wake up at the same time daily</li>
+                                    <li>Create a relaxing pre-sleep ritual (reading, gentle stretching)</li>
+                                    <li>Use your bed only for sleep</li>
+                                </ul>
+                                <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">If You Can't Sleep</h5>
+                                <p>After 20 minutes awake in bed, get up and do a quiet activity until sleepy, then return to bed.</p>
+                            </div>
+                        `;
+                        break;
+                    case 'mindfulness':
+                        textContent = `
+                            <div style="text-align: left; line-height: 1.6; color: var(--text-primary);">
+                                <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Daily Mindfulness Practice</h4>
+                                <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">5-Minute Morning Mindfulness</h5>
+                                <ol style="margin-bottom: 1rem;">
+                                    <li><strong>Sit quietly</strong> and close your eyes</li>
+                                    <li><strong>Notice your breath</strong> without changing it</li>
+                                    <li><strong>When mind wanders</strong>, gently return focus to breath</li>
+                                    <li><strong>Expand awareness</strong> to body sensations</li>
+                                    <li><strong>Set intention</strong> for the day before opening eyes</li>
+                                </ol>
+                                <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">Mindful Study Breaks</h5>
+                                <ul style="margin-bottom: 1rem;">
+                                    <li>Take 3 conscious breaths between subjects</li>
+                                    <li>Notice physical tension and consciously relax</li>
+                                    <li>Practice mindful walking for 2-3 minutes</li>
+                                </ul>
+                                <p><strong>Remember:</strong> Mindfulness is about awareness, not emptying the mind. Be patient with yourself.</p>
+                            </div>
+                        `;
+                        break;
+                    default:
+                        textContent = '<p>Content not available.</p>';
+                }
+                
+                showInfoModal(textContent, item.title, true);
+            } else if (item.videoId) {
+                const videoHtml = `
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 15px;">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                            src="https://www.youtube.com/embed/${item.videoId}" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">${item.desc}</p>
+                `;
+                showInfoModal(videoHtml, item.title, true);
+            } else {
+                showInfoModal("This resource does not have associated content.", item.title);
+            }
         }
 
         function createNewPost() {
@@ -1086,4 +1225,3 @@
     </script>
 </body>
 </html>
-
