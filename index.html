@@ -387,6 +387,7 @@
         .content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
         .content-card { background: var(--card-bg); backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px var(--shadow-light); transition: all 0.4s ease; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.2); }
         .content-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 50px var(--shadow-strong); }
+        a.content-card { text-decoration: none; }
         .content-thumbnail { height: 180px; background: var(--header-gradient); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: var(--text-light); position: relative; overflow: hidden; }
         .content-thumbnail::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s ease; }
         .content-card:hover .content-thumbnail::before { left: 100%; }
@@ -441,6 +442,8 @@
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 2rem;
         }
+
+        /* --- MODIFIED: Added flex properties to align content --- */
         .counselor-card {
             background: var(--card-bg);
             border-radius: 20px;
@@ -448,6 +451,9 @@
             text-align: center;
             box-shadow: 0 10px 30px var(--shadow-light);
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .counselor-card:hover {
             transform: translateY(-5px);
@@ -477,10 +483,13 @@
             font-weight: 600;
             margin-bottom: 1.5rem;
         }
+
+        /* --- MODIFIED: Added flex-grow to make it expand --- */
         .counselor-bio {
             font-size: 0.95rem;
             line-height: 1.6;
             margin-bottom: 1.5rem;
+            flex-grow: 1;
         }
 
         /* --- Floating AI Chat Widget --- */
@@ -555,16 +564,174 @@
         .send-btn { background: var(--header-gradient); color: var(--text-light); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; font-size: 1.2rem; flex-shrink: 0; }
         .send-btn:hover { transform: scale(1.1); box-shadow: 0 5px 15px rgba(232, 157, 157, 0.4); }
 
-        /* --- Modal Styles --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.3s ease; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--modal-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 20px; box-shadow: 0 25px 50px var(--shadow-medium); max-width: 90%; width: 500px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .modal-title { font-size: 1.6rem; color: var(--text-primary); margin-bottom: 1.2rem; font-weight: 700; }
-        .modal-message { color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6; font-size: 1.05rem; }
-        .modal-actions { display: flex; justify-content: center; gap: 1rem; }
-        .modal-textarea { width: 100%; min-height: 120px; border: 2px solid var(--border-color); border-radius: 15px; padding: 1rem; font-size: 1rem; margin-bottom: 1.5rem; font-family: 'Quicksand', sans-serif; background: var(--input-bg); transition: border-color 0.3s ease; color: var(--text-primary); }
-        .modal-textarea:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--accent-bg); }
+        /* --- Footer --- */
+        .footer {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-top: 3px solid var(--primary-color);
+            margin-top: 3rem;
+            border-radius: 0 0 20px 20px;
+            flex-shrink: 0;
+        }
 
-        /* --- Responsive Design --- */
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(4, 1fr);
+            gap: 2rem;
+            padding: 2.5rem 2rem 1.5rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .footer-section h4.footer-title {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo {
+            height: 50px;
+            width: auto;
+            filter: invert(1) brightness(1.1);
+        }
+
+        [data-theme="dark"] .footer-logo {
+            filter: invert(0.8) brightness(1.2);
+        }
+
+        .footer-brand-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .footer-tagline {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--option-bg);
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: var(--text-light);
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(232, 157, 157, 0.3);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-emergency {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(255, 193, 7, 0.1));
+            border: 2px solid rgba(220, 53, 69, 0.3);
+            margin: 1.5rem 2rem;
+            border-radius: 15px;
+            padding: 1rem;
+        }
+
+        .emergency-banner {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .emergency-banner i {
+            color: #dc3545;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .emergency-text {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .emergency-text a {
+            color: #dc3545;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .emergency-text a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            background: var(--option-bg);
+            padding: 1.5rem 2rem;
+            border-radius: 0 0 20px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-disclaimer {
+            margin-top: 0.5rem !important;
+            font-size: 0.85rem !important;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
         @media (max-width: 768px) {
             .app-container { margin: 5px; border-radius: 15px; width: calc(100% - 10px); }
             .header { flex-direction: column; gap: 1.5rem; padding: 1.2rem; border-radius: 15px 15px 0 0; }
@@ -580,7 +747,42 @@
             .modal-content { width: 95%; padding: 2rem; }
             .chat-widget { width: calc(100% - 2rem); right: 1rem; bottom: 5.5rem;}
             .chat-fab { right: 1rem; bottom: 1rem; }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem 1.5rem;
+            }
+
+            .footer-emergency {
+                margin: 1rem;
+            }
+
+            .emergency-banner {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .emergency-text {
+                font-size: 0.9rem;
+            }
+
+            .footer-bottom {
+                padding: 1.5rem 1rem;
+            }
+
+            .footer-social {
+                justify-content: center;
+            }
         }
+
+        /* --- Modal Styles --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.3s ease; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--modal-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 20px; box-shadow: 0 25px 50px var(--shadow-medium); max-width: 90%; width: 500px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .modal-title { font-size: 1.6rem; color: var(--text-primary); margin-bottom: 1.2rem; font-weight: 700; }
+        .modal-message { color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6; font-size: 1.05rem; }
+        .modal-actions { display: flex; justify-content: center; gap: 1rem; }
+        .modal-textarea { width: 100%; min-height: 120px; border: 2px solid var(--border-color); border-radius: 15px; padding: 1rem; font-size: 1rem; margin-bottom: 1.5rem; font-family: 'Quicksand', sans-serif; background: var(--input-bg); transition: border-color 0.3s ease; color: var(--text-primary); }
+        .modal-textarea:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--accent-bg); }
 
         /* --- Utility & Overrides --- */
         .hidden { display: none !important; }
@@ -726,6 +928,83 @@
             </div>
 
         </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="https://raw.githubusercontent.com/prathamgd/SIH-PS2/main/Untitled%20design%20(4).png" alt="MindBridge Logo" class="footer-logo">
+                        <span class="footer-brand-text">MindBridge</span>
+                    </div>
+                    <p class="footer-tagline">Supporting student mental wellness across India with privacy, compassion, and evidence-based resources.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" title="Follow us on Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-link" title="Like us on Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link" title="Connect on LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="social-link" title="Follow on Instagram"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showScreen('welcome', event)">Home</a></li>
+                        <li><a href="#" onclick="showScreen('dashboard', event)">Dashboard</a></li>
+                        <li><a href="#" onclick="showScreen('content', event)">Resources</a></li>
+                        <li><a href="#" onclick="showScreen('counselors', event)">Find Counselors</a></li>
+                        <li><a href="#" onclick="showScreen('community', event)">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showFooterModal('help')">Help Center</a></li>
+                        <li><a href="#" onclick="showFooterModal('faq')">FAQ</a></li>
+                        <li><a href="#" onclick="showFooterModal('crisis')">Crisis Resources</a></li>
+                        <li><a href="#" onclick="showFooterModal('contact')">Contact Us</a></li>
+                        <li><a href="#" onclick="showFooterModal('feedback')">Send Feedback</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">About</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showFooterModal('about')">About MindBridge</a></li>
+                        <li><a href="#" onclick="showFooterModal('mission')">Our Mission</a></li>
+                        <li><a href="#" onclick="showFooterModal('team')">Our Team</a></li>
+                        <li><a href="#" onclick="showFooterModal('partnerships')">Partnerships</a></li>
+                        <li><a href="#" onclick="showFooterModal('blog')">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showFooterModal('privacy')">Privacy Policy</a></li>
+                        <li><a href="#" onclick="showFooterModal('terms')">Terms of Service</a></li>
+                        <li><a href="#" onclick="showFooterModal('disclaimer')">Medical Disclaimer</a></li>
+                        <li><a href="#" onclick="showFooterModal('accessibility')">Accessibility</a></li>
+                        <li><a href="#" onclick="showFooterModal('data')">Data Protection</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-emergency">
+                <div class="emergency-banner">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <div class="emergency-text">
+                        <strong>In Crisis?</strong> National Suicide Prevention: <a href="tel:9152987821">91529-87821</a> | 
+                        Vandrevala Foundation: <a href="tel:9999666555">99996-66555</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 MindBridge. All rights reserved. Made with care for Indian students.</p>
+                <p class="footer-disclaimer">MindBridge is not a substitute for professional medical care. Always consult healthcare providers for mental health concerns.</p>
+            </div>
+        </footer>
     </div>
 
     <div class="chat-fab" onclick="toggleChatWidget()" title="Talk to AI Assistant">
@@ -1148,10 +1427,12 @@
             const grid = document.getElementById('counselorsGrid');
             grid.innerHTML = counselorsData.map(c => `
                 <div class="counselor-card">
-                    <div class="counselor-avatar">${c.avatar}</div>
-                    <div class="counselor-name">${c.name}</div>
-                    <div class="counselor-specialty">${c.specialty}</div>
-                    <p class="counselor-bio">${c.bio}</p>
+                    <div>
+                        <div class="counselor-avatar">${c.avatar}</div>
+                        <div class="counselor-name">${c.name}</div>
+                        <div class="counselor-specialty">${c.specialty}</div>
+                        <p class="counselor-bio">${c.bio}</p>
+                    </div>
                     <button class="action-btn" onclick="showInfoModal('This feature is coming soon. In a real application, this would open a booking or contact form.')">Connect</button>
                 </div>
             `).join('');
@@ -1211,6 +1492,167 @@
 
         function handleChatKeyPress(event) {
             if (event.key === 'Enter') sendMessage();
+        }
+
+        // --- FOOTER MODALS ---
+        function showFooterModal(type) {
+            let title = '';
+            let content = '';
+            
+            switch(type) {
+                case 'about':
+                    title = 'About MindBridge';
+                    content = `
+                        <div style="text-align: left; line-height: 1.6;">
+                            <p><strong>MindBridge</strong> is India's premier digital platform dedicated to supporting student mental health and wellness.</p>
+                            <p>Founded in 2025, we recognize the unique pressures faced by Indian students - from academic competition to family expectations, career uncertainty to social challenges.</p>
+                            <p><strong>Our Approach:</strong></p>
+                            <ul style="margin: 1rem 0;">
+                                <li>Complete privacy and anonymity</li>
+                                <li>Evidence-based mental health resources</li>
+                                <li>Cultural sensitivity and understanding</li>
+                                <li>24/7 accessible support</li>
+                                <li>Peer community support</li>
+                            </ul>
+                            <p>We believe every student deserves access to mental health support, regardless of location, economic background, or social circumstances.</p>
+                        </div>
+                    `;
+                    break;
+                case 'contact':
+                    title = 'Contact Us';
+                    content = `
+                        <div style="text-align: left; line-height: 1.6;">
+                            <p><strong>We'd love to hear from you!</strong></p>
+                            <div style="margin: 1.5rem 0;">
+                                <p><i class="bi bi-envelope-fill" style="color: var(--primary-color); margin-right: 0.5rem;"></i> <strong>Email:</strong> support@mindbridge.org</p>
+                                <p><i class="bi bi-telephone-fill" style="color: var(--primary-color); margin-right: 0.5rem;"></i> <strong>Support Helpline:</strong> 1800-XXX-XXXX (Toll-free)</p>
+                                <p><i class="bi bi-geo-alt-fill" style="color: var(--primary-color); margin-right: 0.5rem;"></i> <strong>Address:</strong> MindBridge Foundation<br>&nbsp;&nbsp;&nbsp;&nbsp;123 Wellness Street, Mental Health District<br>&nbsp;&nbsp;&nbsp;&nbsp;Mumbai, Maharashtra 400001</p>
+                            </div>
+                            <p><strong>Response Time:</strong> We typically respond to queries within 24-48 hours.</p>
+                            <p style="margin-top: 1.5rem; padding: 1rem; background: var(--accent-bg); border-radius: 10px; font-size: 0.95rem;">
+                                <i class="bi bi-info-circle-fill" style="color: var(--primary-color);"></i>
+                                <strong>Note:</strong> For immediate mental health crisis support, please use the emergency numbers provided in the footer or contact local emergency services.
+                            </p>
+                        </div>
+                    `;
+                    break;
+                case 'privacy':
+                    title = 'Privacy Policy';
+                    content = `
+                        <div style="text-align: left; line-height: 1.6; font-size: 0.95rem;">
+                            <p><strong>Your Privacy is Our Priority</strong></p>
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Data Collection</h5>
+                            <ul>
+                                <li>We collect only anonymous usage data</li>
+                                <li>No personal identification is stored on our servers</li>
+                                <li>Journal entries are stored locally in your browser only</li>
+                            </ul>
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Data Protection</h5>
+                            <ul>
+                                <li>All data is encrypted in transit and at rest</li>
+                                <li>We never share personal information with third parties</li>
+                                <li>You can delete your data at any time</li>
+                            </ul>
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Cookies & Analytics</h5>
+                            <p>We use minimal cookies for essential functionality only. Anonymous analytics help us improve our services.</p>
+                            <p style="margin-top: 1rem; font-style: italic;">Last updated: January 2025</p>
+                        </div>
+                    `;
+                    break;
+                case 'crisis':
+                    title = 'Crisis Resources';
+                    content = `
+                        <div style="text-align: left; line-height: 1.6;">
+                            <div style="background: rgba(220, 53, 69, 0.1); padding: 1rem; border-radius: 10px; margin-bottom: 1rem; border: 2px solid rgba(220, 53, 69, 0.3);">
+                                <p style="margin: 0; font-weight: 600;"><i class="bi bi-exclamation-triangle-fill" style="color: #dc3545;"></i> <strong>If you're in immediate danger, call 100 (Police) or go to your nearest emergency room.</strong></p>
+                            </div>
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">National Helplines</h5>
+                            <ul>
+                                <li><strong>Suicide Prevention:</strong> <a href="tel:9152987821">91529-87821</a> (24/7)</li>
+                                <li><strong>Vandrevala Foundation:</strong> <a href="tel:9999666555">99996-66555</a> (24/7)</li>
+                                <li><strong>AASRA:</strong> <a href="tel:02227546669">022-2754-6669</a></li>
+                                <li><strong>iCall:</strong> <a href="tel:02225521111">022-2552-1111</a> (10 AM - 8 PM)</li>
+                            </ul>
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Text-Based Support</h5>
+                            <ul>
+                                <li><strong>Crisis Text Line:</strong> Text HOME to 741741</li>
+                                <li><strong>WhatsApp Support:</strong> +91-XXXX-XXXXXX</li>
+                            </ul>
+                            <p style="margin-top: 1.5rem; font-size: 0.9rem; font-style: italic;">Remember: Reaching out for help is a sign of strength, not weakness.</p>
+                        </div>
+                    `;
+                    break;
+                case 'mission':
+                    title = 'Our Mission';
+                    content = `
+                        <div style="text-align: left; line-height: 1.6;">
+                            <p style="font-size: 1.1rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1rem;">
+                                "To democratize mental health support for every Indian student, ensuring no one suffers in silence."
+                            </p>
+                            <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">Our Vision</h5>
+                            <p>A future where mental health is treated with the same importance as physical health, where every student has access to support, and where seeking help is normalized and celebrated.</p>
+                            <h5 style="color: var(--text-primary); margin: 1rem 0 0.5rem 0;">Core Values</h5>
+                            <ul>
+                                <li><strong>Privacy First:</strong> Complete anonymity and data protection</li>
+                                <li><strong>Cultural Sensitivity:</strong> Understanding Indian family and social dynamics</li>
+                                <li><strong>Evidence-Based:</strong> Scientifically proven methods and resources</li>
+                                <li><strong>Accessibility:</strong> Free, 24/7 support for all students</li>
+                                <li><strong>Community:</strong> Peer support and shared experiences</li>
+                            </ul>
+                            <p>We believe mental wellness is not a luxury, but a fundamental right for every student pursuing their dreams in India.</p>
+                        </div>
+                    `;
+                    break;
+                case 'terms':
+                    title = 'Terms of Service';
+                    content = `
+                        <div style="text-align: left; line-height: 1.6; font-size: 0.95rem;">
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Service Usage</h5>
+                            <ul>
+                                <li>MindBridge is a mental health support platform, not medical treatment</li>
+                                <li>Users must be 13+ years old or have parental consent</li>
+                                <li>Services are provided free of charge for educational and support purposes</li>
+                            </ul>
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Community Guidelines</h5>
+                            <ul>
+                                <li>Be respectful and supportive to all community members</li>
+                                <li>No sharing of personal contact information</li>
+                                <li>Report any inappropriate behavior or content</li>
+                                <li>No spam, advertising, or promotional content</li>
+                            </ul>
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Disclaimer</h5>
+                            <p>MindBridge provides support tools and community resources but is not a substitute for professional medical care, therapy, or emergency services.</p>
+                            <p style="margin-top: 1rem; font-style: italic;">By using MindBridge, you agree to these terms. Last updated: January 2025</p>
+                        </div>
+                    `;
+                    break;
+                case 'faq':
+                    title = 'Frequently Asked Questions';
+                    content = `
+                        <div style="text-align: left; line-height: 1.6; font-size: 0.95rem;">
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Is MindBridge really anonymous?</h5>
+                            <p>Yes, completely. We don't collect names, emails, or any identifying information. Your journal entries are stored only in your browser.</p>
+                            
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Is this service free?</h5>
+                            <p>Yes, MindBridge is completely free for all students. Our mission is to make mental health support accessible to everyone.</p>
+                            
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Can MindBridge replace therapy or medication?</h5>
+                            <p>No, we're a support platform. For clinical depression, anxiety disorders, or other mental health conditions, please consult a qualified mental health professional.</p>
+                            
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">How accurate is the wellness assessment?</h5>
+                            <p>Our assessment is based on the PHQ-9, a clinically validated screening tool. However, it's for informational purposes and not a diagnostic tool.</p>
+                            
+                            <h5 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Can I delete my data?</h5>
+                            <p>Yes, you can clear your browser data anytime to remove all local information. We don't store personal data on our servers.</p>
+                        </div>
+                    `;
+                    break;
+                default:
+                    title = 'Information';
+                    content = '<p>This section is coming soon. Thank you for your interest!</p>';
+            }
+            
+            showInfoModal(content, title, true);
         }
 
         // --- INITIALIZE ---
